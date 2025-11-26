@@ -1,7 +1,7 @@
 {
   "name": "wordflow-upsites",
   "version": "2.0.0",
-  "author": "Bruno & Pedr",
+  "author": "Bruno & Pedro",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.25.0",
