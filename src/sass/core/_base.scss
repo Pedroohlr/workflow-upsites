@@ -1,0 +1,25 @@
+// ======================================
+// BASE - Estilos comuns para todas as páginas
+// ======================================
+
+// Config
+@import "settings";
+@import "utils";
+
+// Vendor
+@import "slick-carousel/slick/slick";
+
+// Defaults
+@import "global";
+@import "grid";
+@import "fonts";
+
+// Structural
+@import "structure";
+
+// Modules
+@import "../modules/sidebar";
+@import "../modules/breadcrumb";
+@import "../modules/slider";
+@import "../modules/buttons";
+@import "../modules/forms";

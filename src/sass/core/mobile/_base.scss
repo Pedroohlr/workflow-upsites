@@ -1,0 +1,26 @@
+// ======================================
+// BASE MOBILE - Estilos comuns mobile para todas as páginas
+// ======================================
+
+// Config
+@import "../settings";
+@import "utils";
+
+// Vendor
+@import "selectric/src/selectric";
+@import "slick-carousel/slick/slick";
+
+// Defaults
+@import "../global";
+@import "../grid";
+@import "../fonts";
+
+// Structural
+@import "../structure";
+
+// Modules
+@import "../../modules/mobile/sidebar";
+@import "../../modules/mobile/breadcrumb";
+@import "../../modules/mobile/slider";
+@import "../../modules/mobile/buttons";
+@import "../../modules/mobile/forms";

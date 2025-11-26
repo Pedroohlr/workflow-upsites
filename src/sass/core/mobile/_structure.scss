@@ -1,0 +1,29 @@
+/*======================================
+  Main structure
+======================================*/
+
+body {
+  background: url(../images/bg.png) top center no-repeat;
+}
+
+// header
+header {
+  .grid {
+    // @include columns( $quant: repeat(4, 1fr), $gutter: 10px, $align: center, $template: 'cols-01 cols-02 cols-04 cols-05' 'full full full full');
+  }
+}
+
+// end header
+// main
+main {
+}
+
+// end main
+// footer
+footer {
+  .grid {
+    // @include columns( $quant: repeat(4, 1fr), $gutter: 10px, $align: center, $template: '');
+  }
+}
+
+// end footer

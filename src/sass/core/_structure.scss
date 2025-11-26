@@ -1,0 +1,50 @@
+/*======================================
+  Main structure
+======================================*/
+
+// display grid
+// @include columns( $quant: repeat(4, 1fr), $gutter: 10px, $align: center, $template: '');
+
+// display flex
+// @include flex($type: inline, $direction: row, $align: center, $justify: center, $gap: 10px);
+
+// padding
+// @include padding($top: 0, $right: 0, $bottom: 0, $left: 0);
+
+// margin
+// @include margin($top: 0, $right: 0, $bottom: 0, $left: 0);
+
+// font
+// @include font($family: $font-main, $size: $font-size, $weight: 400, $height: 120%, $align: left, $color: $color-black);
+
+// position
+// @include position($type: relative, $top: 0, $right: 0, $bottom: 0, $left: 0, $z-index: 0);
+
+body {
+  background: url(../images/bg.png) top center no-repeat;
+}
+
+// header
+header {
+}
+
+// end header
+// main
+main {
+}
+
+// end main
+// footer
+footer {
+}
+
+// end footer
+
+// ex media query
+
+/*@include breakpoint2($min:xl, $max:'') {}
+@include breakpoint2($min:lg, $max:xl) {}
+@include breakpoint2($min:md, $max:lg) {}
+@include breakpoint2($min:sm, $max:md) {}
+@include breakpoint2($min:xs, $max:sm) {}
+@include breakpoint2($min:'', $max:xs) {}*/

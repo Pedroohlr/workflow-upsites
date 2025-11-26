@@ -1,0 +1,590 @@
+/*======================================
+  Sass Mixins and Functions
+======================================*/
+
+// Calculate em from font-size
+@function em($pixels, $context: $font-size) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+  @return ($pixels / $context) * 1em;
+}
+
+// Calculate % from a value
+@function calc-percent($target, $container) {
+  @return ($target / $container) * 100%;
+}
+
+// Shortcut for calc-percent()
+@function cp($target, $container) {
+  @return calc-percent($target, $container);
+}
+
+// Calculate vw from a value
+@function get-vw-xs($target) {
+  $break: map-get($breakpoints, xs) / 1px;
+  $vw-context: ($break * 0.01) * 1px;
+  @return ($target / $vw-context) * 1vw;
+}
+
+// Calculate vw from a value
+@function get-vw-sm($target) {
+  $break: map-get($breakpoints, sm) / 1px;
+  $vw-context: ($break * 0.01) * 1px;
+  @return ($target / $vw-context) * 1vw;
+}
+
+// Calculate vw from a value
+@function get-vw-md($target) {
+  $break: map-get($breakpoints, md) / 1px;
+  $vw-context: ($break * 0.01) * 1px;
+  @return ($target / $vw-context) * 1vw;
+}
+
+// Calculate vw from a value
+@function get-vw-lg($target) {
+  $break: map-get($breakpoints, lg) / 1px;
+  $vw-context: ($break * 0.01) * 1px;
+  @return ($target / $vw-context) * 1vw;
+}
+
+// Calculate vw from a value
+@function get-vw-xl($target) {
+  $break: map-get($breakpoints, xl) / 1px;
+  $vw-context: ($break * 0.01) * 1px;
+  @return ($target / $vw-context) * 1vw;
+}
+
+// Function to remove unit from number
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+// Calculate vw from a value
+@function get-vw($breakpoint, $index) {
+  $break: map-get($breakpoints, $breakpoint) / 1px;
+  $vw-context: ($break * 0.01) * 1;
+  $numb: $index * 5;
+  @return ($numb/$vw-context) * 1;
+}
+
+@mixin cor($color, $opacity: 0.3) {
+  background: $color;
+  /* The Fallback */
+  background: rgba($color, $opacity);
+}
+@mixin gradient-font($gradient: radial-gradient(32.34% 59.21% at 65.99% 87.5%, #fbdf8d 0%, #c5ad63 100%)) {
+  background: $gradient;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@function get-clamp($target) {
+  @return clamp(1px, get-vw-xs($target), $target);
+}
+
+// Calculate vw from a value
+@function get-vw-calc($breakpoint, $index, $type, $target) {
+  $break: map-get($breakpoints, $breakpoint) / 1px;
+  $vw-context: ($break * 0.01) * 1px;
+  $val: ($target / $vw-context) * 1vw;
+  @return calc(#{$index} #{$type} #{$val});
+}
+
+@mixin object-fit($fit: cover, $position: center center) {
+  @include width($width: 100%);
+  @include height($height: 100%);
+  object-fit: $fit;
+  object-position: $position;
+}
+
+// Mixin for cross-browser inline-block
+@mixin inline-block($align: "top") {
+  display: inline-block;
+  vertical-align: #{$align};
+  zoom: 1;
+  *display: inline;
+}
+
+@mixin font-awesome($content: "\f107", $size: 16px) {
+  content: "#{$content}";
+  display: inline-block;
+  font: normal normal normal clamp(1px, get-vw-xs($size), $size) / 1 FontAwesome;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin flex($type: "", $direction: "", $align: "center", $justify: "", $gap: "") {
+  @if ($type!= "") {
+    display: $type + "-flex";
+  } @else {
+    display: flex;
+  }
+  align-items: $align;
+  @if ($direction!= "") {
+    flex-direction: $direction;
+  }
+  @if ($justify!= "") {
+    justify-content: $justify;
+  }
+  @if ($gap!= "") {
+    @if (str-index(#{$gap}, "px")) {
+      @if ($gap > 0) {
+        gap: clamp(1px, get-vw-xs($gap), $gap);
+      } @else {
+        gap: $gap;
+        @include breakpoint2($min: "", $max: sm) {
+          gap: get-vw-xs($gap);
+        }
+      }
+    } @else {
+      gap: $gap;
+    }
+  }
+}
+
+@mixin font($family: $font-main, $size: $font-size, $weight: 400, $height: 120%, $align: left, $color: $color-black) {
+  font-family: $family;
+  @if (str-index(#{$size}, "px")) {
+    @if ($size > 0) {
+      font-size: clamp(1px, get-vw-xs($size), $size);
+    } @else {
+      font-size: get-vw-xs($size);
+    }
+  } @else {
+    font-size: $size;
+  }
+  font-weight: $weight;
+  @if (str-index(#{$height}, "px")) {
+    @if ($height > 0) {
+      line-height: clamp(1px, get-vw-xs($height), $height);
+    } @else {
+      line-height: $height;
+      @include breakpoint2($min: "", $max: sm) {
+        line-height: get-vw-xs($height);
+      }
+    }
+  } @else {
+    line-height: $height;
+  }
+  text-align: $align;
+  color: $color;
+}
+@mixin padding($top: "", $right: "", $bottom: "", $left: "", $all: "") {
+  @if ($all!= "") {
+    @if (str-index(#{$all}, "px")) {
+      @if ($all > 0) {
+        margin: clamp(1px, get-vw-xs($all), $all);
+      } @else {
+        margin: clamp(-1000px, get-vw-xs($all), $all);
+      }
+    } @else {
+      margin: $all;
+    }
+  } @else {
+    @if ($top!= "") {
+      @if (str-index(#{$top}, "px")) {
+        padding-top: clamp(1px, get-vw-xs($top), $top);
+      } @else {
+        padding-top: $top;
+      }
+    }
+    @if ($right!= "") {
+      @if (str-index(#{$right}, "px")) {
+        padding-right: clamp(1px, get-vw-xs($right), $right);
+      } @else {
+        padding-right: $right;
+      }
+    }
+    @if ($bottom!= "") {
+      @if (str-index(#{$bottom}, "px")) {
+        padding-bottom: clamp(1px, get-vw-xs($bottom), $bottom);
+      } @else {
+        padding-bottom: $bottom;
+      }
+    }
+    @if ($left!= "") {
+      @if (str-index(#{$left}, "px")) {
+        padding-left: clamp(1px, get-vw-xs($left), $left);
+      } @else {
+        padding-left: $left;
+      }
+    }
+  }
+}
+@mixin margin($top: "", $right: "", $bottom: "", $left: "", $all: "") {
+  @if ($all!= "") {
+    @if (str-index(#{$all}, "px")) {
+      @if ($all > 0) {
+        margin: clamp(1px, get-vw-xs($all), $all);
+      } @else {
+        margin: $all;
+        @include breakpoint2($min: "", $max: sm) {
+          margin: get-vw-xs($all);
+        }
+      }
+    } @else {
+      margin: $all;
+    }
+  } @else {
+    @if ($top!= "") {
+      @if (str-index(#{$top}, "px")) {
+        @if ($top > 0) {
+          margin-top: clamp(1px, get-vw-xs($top), $top);
+        } @else {
+          margin-top: $top;
+          @include breakpoint2($min: "", $max: sm) {
+            margin-top: get-vw-xs($top);
+          }
+        }
+      } @else {
+        margin-top: $top;
+      }
+    }
+    @if ($right!= "") {
+      @if (str-index(#{$right}, "px")) {
+        @if ($right > 0) {
+          margin-right: clamp(1px, get-vw-xs($right), $right);
+        } @else {
+          margin-right: $right;
+          @include breakpoint2($min: "", $max: sm) {
+            margin-right: get-vw-xs($right);
+          }
+        }
+      } @else {
+        margin-right: $right;
+      }
+    }
+    @if ($bottom!= "") {
+      @if (str-index(#{$bottom}, "px")) {
+        @if ($bottom > 0) {
+          margin-bottom: clamp(1px, get-vw-xs($bottom), $bottom);
+        } @else {
+          margin-bottom: $bottom;
+          @include breakpoint2($min: "", $max: sm) {
+            margin-bottom: get-vw-xs($bottom);
+          }
+        }
+      } @else {
+        margin-bottom: $bottom;
+      }
+    }
+    @if ($left!= "") {
+      @if (str-index(#{$left}, "px")) {
+        @if ($left > 0) {
+          margin-left: clamp(1px, get-vw-xs($left), $left);
+        } @else {
+          margin-left: $left;
+          @include breakpoint2($min: "", $max: sm) {
+            margin-left: get-vw-xs($left);
+          }
+        }
+      } @else {
+        margin-left: $left;
+      }
+    }
+  }
+}
+@mixin border-radius($all: 0) {
+  @if ($all!= 0) {
+    @if (str-index(#{$all}, "px")) {
+      border-radius: clamp(1px, get-vw-xs($all), $all);
+    } @else {
+      border-radius: $all;
+    }
+  }
+}
+@mixin position($type: relative, $top: "", $right: "", $bottom: "", $left: "", $z-index: "") {
+  position: $type;
+  @if ($top!= "") {
+    @if (str-index(#{$top}, "px")) {
+      @if ($top > 0) {
+        top: clamp(1px, get-vw-xs($top), $top);
+      } @else {
+        top: $top;
+        @include breakpoint2($min: "", $max: sm) {
+          top: get-vw-xs($top);
+        }
+      }
+    } @else {
+      top: $top;
+    }
+  }
+  @if ($right!= "") {
+    @if (str-index(#{$right}, "px")) {
+      @if ($right > 0) {
+        right: clamp(1px, get-vw-xs($right), $right);
+      } @else {
+        right: $right;
+        @include breakpoint2($min: "", $max: sm) {
+          right: get-vw-xs($right);
+        }
+      }
+    } @else {
+      right: $right;
+    }
+  }
+  @if ($bottom!= "") {
+    @if (str-index(#{$bottom}, "px")) {
+      @if ($bottom > 0) {
+        bottom: clamp(1px, get-vw-xs($bottom), $bottom);
+      } @else {
+        bottom: $bottom;
+        @include breakpoint2($min: "", $max: sm) {
+          bottom: get-vw-xs($bottom);
+        }
+      }
+    } @else {
+      bottom: $bottom;
+    }
+  }
+  @if ($left!= "") {
+    @if (str-index(#{$left}, "px")) {
+      @if ($left > 0) {
+        left: clamp(1px, get-vw-xs($left), $left);
+      } @else {
+        left: $left;
+        @include breakpoint2($min: "", $max: sm) {
+          left: get-vw-xs($left);
+        }
+      }
+    } @else {
+      left: $left;
+    }
+  }
+  @if ($z-index!= "") {
+    z-index: $z-index;
+  }
+}
+@mixin width($width: 0) {
+  @if (str-index(#{$width}, "px")) {
+    width: clamp(1px, get-vw-xs($width), $width);
+  } @else {
+    width: $width;
+  }
+}
+@mixin height($height: 0) {
+  @if (str-index(#{$height}, "px")) {
+    height: clamp(1px, get-vw-xs($height), $height);
+  } @else {
+    height: $height;
+  }
+}
+
+// Mixin to create a grid
+@mixin columns($quant: repeat(12, 1fr), $gutter: 20, $align: top, $template: "") {
+  display: grid;
+  grid-template-columns: $quant;
+  @if (str-index(#{$gutter}, "px")) {
+    gap: clamp(1px, get-vw-xs($gutter), $gutter);
+  } @else {
+    gap: $gutter;
+  }
+  align-items: $align;
+  @if ($template!= "") {
+    grid-template-areas: $template;
+  }
+}
+
+// Mixin to create a grid container
+@mixin container {
+  max-width: $grid-container;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: ($grid-gutter / 2);
+  padding-right: ($grid-gutter / 2);
+}
+
+// Mixin to create a grid container
+@mixin container-full {
+  max-width: 1834px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: ($grid-gutter / 2);
+  padding-right: ($grid-gutter / 2);
+}
+
+// animate
+@mixin animate($time: 0.5s, $ease: ease, $delay: 0s) {
+  transition: all $time $ease $delay;
+  -webkit-transition: all $time $ease $delay;
+  -moz-transition: all $time $ease $delay;
+}
+
+// Mixin for media queries
+@mixin breakpoint2($min: "", $max: "") {
+  @if (map-get($breakpoints, $min) and map-get($breakpoints, $max)) {
+    @media (min-width: map-get($breakpoints, $min) + 1px) and (max-width: map-get($breakpoints, $max)) {
+      @content;
+    }
+  } @else if $min== "" {
+    @media (max-width: map-get($breakpoints, $max)) {
+      @content;
+    }
+  } @else if $max== "" {
+    @media (min-width: map-get($breakpoints, $min)) {
+      @content;
+    }
+  } @else {
+    @media (max-width: $min) {
+      @content;
+    }
+  }
+}
+
+// Mixin to create a default margin
+@mixin make-default-margin($prefix: "mtop", $limit: 10, $direction: "top") {
+  @for $index from 1 through $limit {
+    .#{$prefix}-#{$index * 5} {
+      margin-#{$direction}: #{$index * 5}px;
+    }
+  }
+  @include breakpoint2($min: lg, $max: xl) {
+    @for $index from 1 through $limit {
+      $r: get-vw(xl, $index);
+      .#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: md, $max: lg) {
+    @for $index from 1 through $limit {
+      $r: get-vw(lg, $index);
+      .#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: sm, $max: md) {
+    @for $index from 1 through $limit {
+      $r: get-vw(md, $index);
+      .#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: xs, $max: sm) {
+    @for $index from 1 through $limit {
+      $r: get-vw(sm, $index);
+      .#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+      .mobile-#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: "", $max: xs) {
+    @for $index from 1 through $limit {
+      $r: get-vw(xs, $index);
+      .#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+      .mobile-#{$prefix}-#{$index * 5} {
+        margin-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+}
+
+// Mixin to create a default padding
+@mixin make-default-padding($prefix: "mtop", $limit: 10, $direction: "top") {
+  @for $index from 1 through $limit {
+    .#{$prefix}-#{$index * 5} {
+      padding-#{$direction}: #{$index * 5}px;
+    }
+  }
+  @include breakpoint2($min: lg, $max: xl) {
+    @for $index from 1 through $limit {
+      $r: get-vw(xl, $index);
+      .#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: md, $max: lg) {
+    @for $index from 1 through $limit {
+      $r: get-vw(lg, $index);
+      .#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: sm, $max: md) {
+    @for $index from 1 through $limit {
+      $r: get-vw(md, $index);
+      .#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: xs, $max: sm) {
+    @for $index from 1 through $limit {
+      $r: get-vw(sm, $index);
+      .#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+      .mobile-#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+  @include breakpoint2($min: "", $max: xs) {
+    @for $index from 1 through $limit {
+      $r: get-vw(xs, $index);
+      .#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+      .mobile-#{$prefix}-#{$index * 5} {
+        padding-#{$direction}: #{$r}vw;
+      }
+    }
+  }
+}
+
+/// Helper function to easily use an SVG inline in CSS
+/// without encoding it to base64, saving bytes.
+/// It also helps with browser support.
+/// A small function allowing skipping base64 encoding
+/// and simply pasting the SVG markup right in the CSS.
+/// @author Jakob Eriksen
+/// @link http://codepen.io/jakob-e/pen/doMoML
+/// @param {String} $svg - SVG image to encode
+/// @return {String} - Encoded SVG data uri
+@function svg-uri($svg) {
+  $encoded: "";
+  $slice: 2000;
+  $index: 0;
+  $loops: ceil(str-length($svg) / $slice);
+  @for $i from 1 through $loops {
+    $chunk: str-slice($svg, $index, $index + $slice - 1);
+    $chunk: str-replace($chunk, '"', "'");
+    $chunk: str-replace($chunk, "<", "%3C");
+    $chunk: str-replace($chunk, ">", "%3E");
+    $chunk: str-replace($chunk, "&", "%26");
+    $chunk: str-replace($chunk, "#", "%23");
+    $encoded: #{$encoded}#{$chunk};
+    $index: $index + $slice;
+  }
+  @return url("data:image/svg+xml;charset=utf8,#{$encoded}");
+}
+
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @link http://sassmeister.com/gist/1b4f2da5527830088e4d
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}

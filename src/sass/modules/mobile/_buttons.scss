@@ -1,0 +1,7 @@
+/*======================================
+  Buttons
+======================================*/
+.btn {
+	@include animate($time: 0.3s);
+	@include inline-block($align: middle);
+}

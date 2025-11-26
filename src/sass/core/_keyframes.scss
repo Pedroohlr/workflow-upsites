@@ -1,0 +1,21 @@
+/*======================================
+  Keyframes
+======================================*/
+@keyframes bounce {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes moveIt {
+  0%,
+  100% {
+    transform: translate(-50%, 0) rotate(1deg);
+  }
+  50% {
+    transform: translate(-50%, 0) rotate(-1deg);
+  }
+}
